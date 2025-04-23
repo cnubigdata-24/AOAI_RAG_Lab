@@ -3,15 +3,14 @@ from openai import AzureOpenAI
 
 # 설정
 endpoint = "https://aoai-2025-111.openai.azure.com/"
-deployment = "gpt-4o-mini"  # Azure에서 배포한 배포 이름
-subscription_key = "<your-api-key>"
-api_version = "2024-07-18"
+subscription_key = "<your api key>"
+api_version = "2024-12-01-preview"
 
 # 클라이언트 생성
 client = AzureOpenAI(
+    api_key=subscription_key,
     api_version=api_version,
     azure_endpoint=endpoint,
-    api_key=subscription_key,
 )
 
 # 사용자 입력 받기
@@ -19,11 +18,14 @@ query = input("저는 ChatGPT gpt-4o-mini 입니다. 무엇이든지 물어보�
 
 # 응답 생성
 response = client.chat.completions.create(
-    model=deployment,  # 배포 이름
+    model="gpt-4o-mini",  # Azure 배포 이름
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": query + "에 대해 답변해주세요."}
-    ]
+        {"role": "user", "content": query}
+    ],
+    max_tokens=2048,
+    temperature=1.0,
+    top_p=1.0
 )
 
 # 결과 출력

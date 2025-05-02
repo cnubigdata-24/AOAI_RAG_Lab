@@ -1,51 +1,53 @@
-import openai
 from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
+from openai import AzureOpenAI
 
-# Configure Azure AI Search
-search_service_name = "az-ai-search-001"
-search_api_key = "<your search api key>"
-index_name = "azureblob-index"
-
-# Configure OpenAI API
-openai.api_key = "<your api key>"
-openai.azure_endpoint = "https://aoai-instance-001.openai.azure.com"
-openai.api_type = "azure"
-openai.api_version = "2024-07-18"
-
-# Initialize SearchClient
+# 1. Azure AI Search 설정
+search_service_name = "<azure ai search name>"
+search_api_key = "<azure search api key>"
+index_name = "<azure search index name>"
 search_endpoint = f"https://{search_service_name}.search.windows.net"
-search_client = SearchClient(endpoint=search_endpoint, 
-                             index_name=index_name, 
-                             credential=AzureKeyCredential(search_api_key))
 
-def search_documents(query):
-    """Retrieve relevant documents from Azure AI Search"""
-    search_results = search_client.search(query)
-    retrieved_docs = [result['description'] for result in search_results if 'description' in result]
-    
-    if not retrieved_docs:
-        return ["관련 정보를 찾을 수 없습니다."]
-    return retrieved_docs
+search_client = SearchClient(
+    endpoint=search_endpoint,
+    index_name=index_name,
+    credential=AzureKeyCredential(search_api_key)
+)
 
-def generate_answer(query, retrieved_docs):
-    """Generate an AI answer using OpenAI and retrieved search results"""
-    context = "\n".join(retrieved_docs)
-    
-    response = openai.chat.completions.create(
-        model="my-gpt-4o-mini",  # Model Name
-        messages=[
-            {"role": "system", "content": "너는 제품 정보 제공 AI야."},
-            {"role": "user", "content": f"질문: {query}\n\n참고 자료:\n{context}"}
-        ],
-        temperature=0.7,
-        max_tokens=800
-    )
-    
-    return response.choices[0].message.content
+# 2. Azure OpenAI 설정
+client = AzureOpenAI(
+    api_key="<ai foundry: aoai api key>",
+    api_version="<ai foundry: aoai api version>",
+    azure_endpoint="<ai foundry: aoai endpoint url>"
+)
 
-# Test
-user_query = "방수 기능이 뛰어난 텐트를 추천해줘"
-retrieved_docs = search_documents(user_query)  # 1. Search Document
-answer = generate_answer(user_query, retrieved_docs)  # 2. Create OpenAI Response based on Search Result
-print("AI 응답:", answer)
+# 3. 사용자 질문
+query = "방수 기능이 뛰어난 텐트를 3개 추천해줘"
+
+# 4. 검색 실행
+search_results = search_client.search(query)
+retrieved_docs = []
+
+for result in search_results:
+    # 각 검색 결과에서 제품 설명 추출
+    doc = f"- 제품명: {result['name']}, 브랜드: {result['brand']}, 설명: {result['description']}"
+    retrieved_docs.append(doc)
+
+if not retrieved_docs:
+    retrieved_docs = ["검색된 제품 정보가 없습니다."]
+
+# 5. 검색 결과를 문맥으로 넣고 OpenAI에게 답변 생성 요청
+context = "\n".join(retrieved_docs)
+
+response = client.chat.completions.create(
+    model="my-gpt-4o-mini",  # Azure에 배포된 모델 이름
+    messages=[
+        {"role": "system", "content": "너는 캠핑 용품 전문가 AI야. 사용자에게 제품을 설명하고 추천해줘."},
+        {"role": "user", "content": f"질문: {query}\n\n검색된 제품 정보:\n{context}"}
+    ],
+    temperature=0.7,
+    max_tokens=800
+)
+
+# 6. 결과 출력
+print("\nAI 응답:\n", response.choices[0].message.content)

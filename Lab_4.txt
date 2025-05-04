@@ -1,0 +1,5 @@
+Lab #4: Deploying a RAG Service App with AOAI Playground
+
+Uploading, Configuring, and Connecting Data
+
+https://www.acc.go.kr/resources/upload/717/w458t7k64tv00qa.pdf

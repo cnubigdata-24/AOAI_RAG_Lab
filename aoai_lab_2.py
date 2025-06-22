@@ -23,7 +23,6 @@ response = client.chat.completions.create(
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": query}
     ],
-    max_tokens=2048,
     temperature=1.0,
     top_p=1.0
 )

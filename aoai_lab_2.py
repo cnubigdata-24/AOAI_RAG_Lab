@@ -1,11 +1,15 @@
+# pip install openai
+
 import os
 from openai import AzureOpenAI
 
 # 설정
-endpoint = "https://aoai-2025-111.openai.azure.com/"
-subscription_key = "<your api key>"
-api_version = "2024-12-01-preview"
+endpoint = "https://limys-mc7bu9gg-eastus2.cognitiveservices.azure.com/"
+model_name = "o4-mini"
 deployment = "my-gpt-o4-mini"
+
+subscription_key = "EbOaf7RYR4MLzB7SAih5FmpiXr9lWsyEk0VXXtw2novbVY44LhKRJQQJ99BFACHYHv6XJ3w3AAAAACOGhQAd"
+api_version = "2024-12-01-preview"
 
 # 클라이언트 생성
 client = AzureOpenAI(

@@ -8,7 +8,7 @@ endpoint = "https://limys-mc7bu9gg-eastus2.cognitiveservices.azure.com/"
 model_name = "o4-mini"
 deployment = "my-gpt-o4-mini"
 
-subscription_key = "EbOaf7RYR4MLzB7SAih5FmpiXr9lWsyEk0VXXtw2novbVY44LhKRJQQJ99BFACHYHv6XJ3w3AAAAACOGhQAd"
+subscription_key = "<your key>"
 api_version = "2024-12-01-preview"
 
 # 클라이언트 생성

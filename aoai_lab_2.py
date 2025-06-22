@@ -5,6 +5,7 @@ from openai import AzureOpenAI
 endpoint = "https://aoai-2025-111.openai.azure.com/"
 subscription_key = "<your api key>"
 api_version = "2024-12-01-preview"
+deployment = "my-gpt-o4-mini"
 
 # 클라이언트 생성
 client = AzureOpenAI(
@@ -18,7 +19,7 @@ query = input("저는 ChatGPT gpt-4o-mini 입니다. 무엇이든지 물어보�
 
 # 응답 생성
 response = client.chat.completions.create(
-    model="gpt-4o-mini",  # Azure 배포 이름
+    model=deployment,
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": query}

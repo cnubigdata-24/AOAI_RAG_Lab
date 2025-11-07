@@ -4,7 +4,7 @@ from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
 
 # SEARCH_SERVICE_NAME
-search_service_name = "az-ai-search-001" 
+search_service_name = "<your ai search service name>"
 
 #SEARCH_API_KEY"
 search_api_key = "<your api key>"

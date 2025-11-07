@@ -20,6 +20,7 @@ client = AzureOpenAI(
     api_version="<ai foundry: aoai api version>",
     azure_endpoint="<ai foundry: aoai endpoint url>"
 )
+aoai_model_name = "<your model name>" # example: "gpt-4o-mini"
 
 # 3. 사용자 질문
 query = "방수 기능이 뛰어난 텐트를 3개 추천해줘"
@@ -40,7 +41,7 @@ if not retrieved_docs:
 context = "\n".join(retrieved_docs)
 
 response = client.chat.completions.create(
-    model="my-gpt-4o-mini",  # Azure에 배포된 모델 이름
+    model=aoai_model_name,
     messages=[
         {"role": "system", "content": "너는 캠핑 용품 전문가 AI야. 사용자에게 제품을 설명하고 추천해줘."},
         {"role": "user", "content": f"질문: {query}\n\n검색된 제품 정보:\n{context}"}

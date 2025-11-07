@@ -24,6 +24,7 @@ search_results = search_client.search(query)
 
 # Print search results
 for result in search_results:
+    print(f"ID: {result['id']}")
     print(f"Product Name: {result['name']}")
     print(f"Category: {result['category']}")
     print(f"Brand: {result['brand']}")

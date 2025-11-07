@@ -3,9 +3,9 @@ from azure.core.credentials import AzureKeyCredential
 from openai import AzureOpenAI
 
 # 1. Azure AI Search 설정
-search_service_name = "<azure ai search name>"
-search_api_key = "<azure search api key>"
-index_name = "<azure search index name>"
+search_service_name = "<ai search name>"
+search_api_key = "<ai search api key>"
+index_name = "<ai search index name>"
 search_endpoint = f"https://{search_service_name}.search.windows.net"
 
 search_client = SearchClient(
